@@ -19,7 +19,6 @@ type VK struct {
 type ListenerConfig struct {
 	Bind string     `json:"bind" yaml:"bind"`
 	TLS  *TLSConfig `json:"tls" yaml:"tls"`
-	set  bool
 }
 
 type TLSConfig struct {

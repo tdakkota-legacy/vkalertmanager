@@ -51,7 +51,7 @@ func (h HookServer) Run(ctx context.Context) error {
 		g.Go(func() error {
 			err := h.listen(c)
 			if err != nil {
-				h.logger.Error().Err(err).Msgf("listener %s stopped", c.Host)
+				h.logger.Error().Err(err).Msgf("listener %s stopped", c.Bind)
 			}
 			return err
 		})
