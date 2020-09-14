@@ -53,6 +53,27 @@ func (app *App) flags() []cli.Flag {
 			Usage:    "VK API tokens",
 		}),
 	}
+	hookFlags := []cli.Flag{
+		altsrc.NewIntSliceFlag(&cli.IntSliceFlag{
+			Name:     "hook.receivers",
+			Aliases:  []string{"receivers"},
+			Required: true,
+			Usage:    "Sets receiver users.",
+			EnvVars:  app.getEnvNames("RECEIVERS"),
+		}),
+		altsrc.NewStringFlag(&cli.StringFlag{
+			Name:     "hook.template.body",
+			Aliases:  []string{"template"},
+			Required: false,
+			Usage:    "Message template body.",
+		}),
+		altsrc.NewPathFlag(&cli.PathFlag{
+			Name:     "hook.template.file",
+			Aliases:  []string{"template-file"},
+			Required: false,
+			Usage:    "Message template file.",
+		}),
+	}
 	serverFlags := []cli.Flag{
 		altsrc.NewStringFlag(&cli.StringFlag{
 			Name:     "server.bind",
@@ -98,5 +119,6 @@ func (app *App) flags() []cli.Flag {
 	}
 	flags = append(flags, vkFlags...)
 	flags = append(flags, serverFlags...)
+	flags = append(flags, hookFlags...)
 	return flags
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/tdakkota/vkalertmanager/pkg/emitter"
@@ -28,23 +29,51 @@ func (app *App) parseListenerConfig(c *cli.Context) server.ListenerConfig {
 	return config
 }
 
-func (app *App) setup(c *cli.Context) error {
-	app.logger = log.Logger
+var ErrAtLeastOneTokenExpected = errors.New("at least one token expected")
+var ErrAtLeastOneReceiverExpected = errors.New("at least one alert receiver expected")
 
-	t, err := emitter.Parse(c.String(""))
-	if err != nil {
-		return err
+func parseTemplate(c *cli.Context) (emitter.Template, error) {
+	if c.IsSet("hook.template.file") {
+		return emitter.ParseFiles(c.Path("hook.template.file"))
 	}
 
-	var receivers []int
-	vk := sdkutil.BuildSDK("token").WithMiddleware(zlog.LoggingMiddleware(
+	return emitter.Parse(c.String("hook.template.body"))
+}
+
+func (app *App) createHook(c *cli.Context) (hook.Hook, error)  {
+	t, err := parseTemplate(c)
+	if err != nil {
+		return hook.Hook{}, err
+	}
+
+	tokens := c.StringSlice("vk.tokens")
+	if len(tokens) < 1 {
+		return hook.Hook{}, ErrAtLeastOneTokenExpected
+	}
+
+	receivers := c.IntSlice("hook.receivers")
+	if len(tokens) < 1 {
+		return hook.Hook{}, ErrAtLeastOneReceiverExpected
+	}
+
+	vk := sdkutil.BuildSDK(tokens[0], tokens[1:]...).WithMiddleware(zlog.LoggingMiddleware(
 		log.With().Str("type", "vksdk").Logger().Level(zerolog.DebugLevel),
 	)).Complete()
 
 	emit := emitter.NewVK(vk, receivers, t)
 	h := hook.NewHook(emit, app.logger.With().Str("type", "hook").Logger())
 
-	app.server = server.NewHookServer(h, app.logger, app.parseListenerConfig(c))
+	return h, nil
+}
 
+func (app *App) setup(c *cli.Context) error {
+	app.logger = log.Logger
+
+	h, err := app.createHook(c)
+	if err != nil {
+		return err
+	}
+
+	app.server = server.NewHookServer(h, app.logger, app.parseListenerConfig(c))
 	return nil
 }
