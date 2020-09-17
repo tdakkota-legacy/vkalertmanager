@@ -35,7 +35,7 @@ func Default() Template {
 	return t
 }
 
-func ParseFiles(path ...string) (Template, error)  {
+func ParseFiles(path ...string) (Template, error) {
 	t, err := template.New("msg").ParseFiles(path...)
 	if err != nil {
 		return Template{}, fmt.Errorf("failed to parse template: %w", err)

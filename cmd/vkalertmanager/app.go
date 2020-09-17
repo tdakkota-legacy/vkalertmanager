@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/rs/zerolog"
 	"github.com/tdakkota/vkalertmanager/pkg/server"
 	"github.com/urfave/cli/v2"

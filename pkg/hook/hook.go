@@ -2,18 +2,17 @@ package hook
 
 import (
 	"encoding/json"
-	"github.com/tdakkota/vkalertmanager/pkg/emitter"
 	"net/http"
 
 	"github.com/rs/zerolog"
 )
 
 type Hook struct {
-	emitter emitter.Emitter
+	emitter Emitter
 	logger  zerolog.Logger
 }
 
-func NewHook(emitter emitter.Emitter, logger zerolog.Logger) Hook {
+func NewHook(emitter Emitter, logger zerolog.Logger) Hook {
 	return Hook{emitter: emitter, logger: logger}
 }
 

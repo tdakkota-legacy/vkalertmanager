@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/tdakkota/vkalertmanager/pkg/emitter"
@@ -40,7 +41,7 @@ func parseTemplate(c *cli.Context) (emitter.Template, error) {
 	return emitter.Parse(c.String("hook.template.body"))
 }
 
-func (app *App) createHook(c *cli.Context) (hook.Hook, error)  {
+func (app *App) createHook(c *cli.Context) (hook.Hook, error) {
 	t, err := parseTemplate(c)
 	if err != nil {
 		return hook.Hook{}, err
