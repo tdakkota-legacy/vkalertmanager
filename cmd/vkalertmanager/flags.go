@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/SevereCloud/vksdk/v2"
 	"github.com/urfave/cli/v2"
 	"github.com/urfave/cli/v2/altsrc"
 )
@@ -43,6 +44,7 @@ func (app *App) flags() []cli.Flag {
 		altsrc.NewStringFlag(&cli.StringFlag{
 			Name:     "vk.user_agent",
 			Required: false,
+			Value:    "vksdk/" + vksdk.Version + " (+https://github.com/SevereCloud/vksdk)",
 			Usage:    "VK API Client useragent",
 			EnvVars:  app.getEnvNames("VK_USER_AGENT"),
 		}),

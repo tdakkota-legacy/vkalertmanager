@@ -37,7 +37,7 @@ func TestVK_Emit(t *testing.T) {
 
 	t.Run("group", func(t *testing.T) {
 		vk, cse := testutil.CreateSDK(t)
-		defer cse.ExpectationsWereMet()
+		defer cse.ExpectationsWereMet() //nolint:errcheck
 
 		emit := NewVK(vk, receivers)
 		cse.ExpectCall("messages.send").WithParamsF(func() api.Params {
@@ -52,7 +52,7 @@ func TestVK_Emit(t *testing.T) {
 
 	t.Run("user", func(t *testing.T) {
 		vk, cse := testutil.CreateSDK(t)
-		defer cse.ExpectationsWereMet()
+		defer cse.ExpectationsWereMet() //nolint:errcheck
 
 		emit := NewVK(vk, receivers,
 			WithTemplate(template.Default()),

@@ -63,12 +63,16 @@ func (app *App) createEmitter(c *cli.Context) (hook.Emitter, error) {
 		return nil, ErrAtLeastOneReceiverExpected
 	}
 
-	vk := sdkutil.BuildSDK(tokens[0], tokens[1:]...).WithMiddleware(zlog.LoggingMiddleware(
-		app.logger.With().
-			Str("type", "vksdk").
-			Logger().
-			Level(zerolog.DebugLevel),
-	)).Complete()
+	vk := sdkutil.BuildSDK(tokens[0], tokens[1:]...).
+		WithMiddleware(zlog.LoggingMiddleware(
+			app.logger.With().
+				Str("type", "vksdk").
+				Logger().
+				Level(zerolog.DebugLevel),
+		)).
+		WithUserAgent(c.String("vk.user_agent")).
+		WithMethodURL(c.String("vk.server")).
+		Complete()
 
 	return emitter.NewVK(vk, receivers, emitter.WithTemplate(t)), nil
 }
