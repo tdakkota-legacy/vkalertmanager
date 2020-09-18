@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/rs/zerolog/log"
+
 	"github.com/rs/zerolog"
 	"github.com/tdakkota/vkalertmanager/pkg/server"
 	"github.com/urfave/cli/v2"
@@ -21,7 +23,9 @@ type App struct {
 }
 
 func NewApp() *App {
-	return &App{}
+	return &App{
+		logger: log.Logger,
+	}
 }
 
 func (app *App) version(c *cli.Context) error {
@@ -30,11 +34,6 @@ func (app *App) version(c *cli.Context) error {
 }
 
 func (app *App) run(c *cli.Context) error {
-	err := app.setup(c)
-	if err != nil {
-		return err
-	}
-
 	return app.server.Run(c.Context)
 }
 
@@ -60,8 +59,8 @@ func (app *App) commands() []*cli.Command {
 
 func (app *App) cli() *cli.App {
 	cliApp := &cli.App{
-		Name:     "vkautoreader",
-		Usage:    "vkautoreader reads vk messages",
+		Name:     "vkalertmanager",
+		Usage:    "alertmanager VK handler",
 		Commands: app.commands(),
 	}
 

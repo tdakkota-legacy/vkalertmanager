@@ -24,7 +24,7 @@ func (app *App) addFileConfig(flagName string, command *cli.Command) {
 		fileContext, err := altsrc.NewYamlSourceFromFile(path)
 		if err != nil {
 			app.logger.Warn().Err(err).Msgf("failed to load config from %s", path)
-			return err
+			return nil
 		}
 
 		return altsrc.ApplyInputSourceValues(context, fileContext, command.Flags)
