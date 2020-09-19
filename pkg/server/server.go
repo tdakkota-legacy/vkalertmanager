@@ -10,6 +10,11 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+func Create(emitter hook.Emitter, logger zerolog.Logger, config ...ListenerConfig) HookServer {
+	h := hook.NewHook(emitter, logger.With().Str("type", "hook").Logger())
+	return NewHookServer(h, logger.With().Str("type", "server").Logger(), config...)
+}
+
 type HookServer struct {
 	hook   hook.Hook
 	config []ListenerConfig
@@ -32,12 +37,19 @@ func NewHookServer(hook hook.Hook, logger zerolog.Logger, config ...ListenerConf
 }
 
 func (h HookServer) listen(c ListenerConfig) error {
-	if c.TLS != nil {
-		tls := c.TLS
-		return h.server.ListenAndServeTLS(tls.CertFile, tls.KeyFile)
+	h.logger.Info().Msgf("binding to %s", c.Bind)
+
+	l, err := net.Listen("tcp", c.Bind)
+	if err != nil {
+		return err
 	}
 
-	return h.server.ListenAndServe()
+	if c.TLS != nil {
+		tls := c.TLS
+		return h.server.ServeTLS(l, tls.CertFile, tls.KeyFile)
+	}
+
+	return h.server.Serve(l)
 }
 
 func (h HookServer) Run(ctx context.Context) error {
