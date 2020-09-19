@@ -2,33 +2,48 @@ package emitter
 
 import (
 	"context"
+	"fmt"
+
+	"github.com/tdakkota/vkalertmanager/pkg/template"
 
 	"github.com/SevereCloud/vksdk/v2/api"
 	"github.com/SevereCloud/vksdk/v2/api/params"
 	"github.com/tdakkota/vkalertmanager/pkg/hook"
 )
 
+// VK is VK API message emitter.
 type VK struct {
 	client      *api.VK
 	receiverIDs []int
-	template    Template
-	isGroup     bool
+	template    *template.Template
+	isUser      bool
 }
 
-func NewVK(client *api.VK, receiverIDs []int, template Template) VK {
-	return VK{client: client, receiverIDs: receiverIDs, template: template}
+// NewVK creates new VK struct.
+func NewVK(client *api.VK, receiverIDs []int, ops ...VKOp) VK {
+	vk := VK{client: client, receiverIDs: receiverIDs}
+
+	for _, op := range ops {
+		op(&vk)
+	}
+
+	if vk.template == nil {
+		vk.template = template.Default()
+	}
+
+	return vk
 }
 
 func (v VK) sendUser(ctxt context.Context, msg string) error {
 	b := params.NewMessagesSendBuilder()
 	b.Message(msg)
 
-	for i := range v.receiverIDs {
-		b.PeerID(v.receiverIDs[i])
+	for _, userID := range v.receiverIDs {
+		b.PeerID(userID)
 
 		_, err := v.client.MessagesSend(b.Params)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to send message to user %d: %w", userID, err)
 		}
 	}
 
@@ -49,7 +64,7 @@ func (v VK) sendGroup(ctxt context.Context, msg string) error {
 		b.UserIDs(v.receiverIDs[i:to])
 		_, err := v.client.MessagesSend(b.Params)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to send message: %w", err)
 		}
 	}
 
@@ -62,10 +77,10 @@ func (v VK) Emit(ctxt context.Context, m hook.Message) error {
 		return err
 	}
 
-	if v.isGroup {
-		err = v.sendGroup(ctxt, msg)
-	} else {
+	if v.isUser {
 		err = v.sendUser(ctxt, msg)
+	} else {
+		err = v.sendGroup(ctxt, msg)
 	}
 
 	return err
