@@ -9,14 +9,21 @@ import (
 )
 
 func TestDefault(t *testing.T) {
+	a := require.New(t)
+
 	alerts := hook.Alerts{
 		{
-			Status:   "firing",
-			StartsAt: time.Now(),
+			Status: "firing",
 			Labels: hook.KV{
 				"alertname": "test-alert-label",
 			},
-			EndsAt: time.Now().Add(time.Second),
+			Annotations: hook.KV{
+				"message":     "message",
+				"summary":     "summary",
+				"description": "description",
+			},
+			StartsAt: time.Now(),
+			EndsAt:   time.Now().Add(time.Second),
 		},
 	}
 
@@ -26,7 +33,7 @@ func TestDefault(t *testing.T) {
 		},
 	})
 
-	require.NoError(t, err)
-	require.Contains(t, m, "test-alert-label")
-	require.Contains(t, m, "Duration: 1 second")
+	a.NoError(err)
+	a.Contains(m, "test-alert-label")
+	a.Contains(m, "Duration: 1 second")
 }
