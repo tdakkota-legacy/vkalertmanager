@@ -1,11 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/rs/zerolog/log"
-
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/tdakkota/vkalertmanager/pkg/server"
 	"github.com/urfave/cli/v2"
 )
@@ -68,5 +68,9 @@ func (app *App) cli() *cli.App {
 }
 
 func (app *App) Run(args []string) error {
-	return app.cli().Run(args)
+	return app.RunContext(context.Background(), args)
+}
+
+func (app *App) RunContext(ctxt context.Context, args []string) error {
+	return app.cli().RunContext(ctxt, args)
 }

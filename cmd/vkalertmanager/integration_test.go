@@ -51,7 +51,7 @@ func TestApp_run(t *testing.T) {
 
 	app := NewApp()
 	go func() {
-		_ = app.cli().RunContext(ctxt, args)
+		_ = app.RunContext(ctxt, args)
 	}()
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
