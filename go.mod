@@ -3,7 +3,7 @@ module github.com/tdakkota/vkalertmanager
 go 1.15
 
 require (
-	github.com/SevereCloud/vksdk/v2 v2.4.0
+	github.com/SevereCloud/vksdk/v2 v2.5.0
 	github.com/hako/durafmt v0.0.0-20200710122514-c0fb7b4da026
 	github.com/justinas/alice v1.2.0
 	github.com/rs/zerolog v1.20.0
