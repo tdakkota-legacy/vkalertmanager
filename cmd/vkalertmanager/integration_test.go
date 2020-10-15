@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
 	"github.com/tdakkota/vkalertmanager/pkg/hook"
@@ -35,7 +34,7 @@ func getArgs(host, apiUrl string) []string {
 func TestApp_run(t *testing.T) {
 	a := require.New(t)
 
-	ctxt, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	ctxt, cancel := context.WithCancel(context.Background())
 	_, data := prepareMessage(a)
 
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
