@@ -8,7 +8,7 @@ require (
 	github.com/justinas/alice v1.2.0
 	github.com/rs/zerolog v1.20.0
 	github.com/stretchr/testify v1.6.1
-	github.com/tdakkota/vksdkutil/v2 v2.0.0
+	github.com/tdakkota/vksdkutil/v2 v2.0.1
 	github.com/urfave/cli/v2 v2.3.0
 	github.com/valyala/bytebufferpool v1.0.0
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
