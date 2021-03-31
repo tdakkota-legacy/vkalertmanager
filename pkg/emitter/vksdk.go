@@ -61,7 +61,7 @@ func (v VK) sendGroup(ctxt context.Context, msg string) error {
 			to = length
 		}
 
-		b.UserIDs(v.receiverIDs[i:to])
+		b.PeerIDs(v.receiverIDs[i:to])
 		_, err := v.client.MessagesSend(b.Params)
 		if err != nil {
 			return fmt.Errorf("failed to send message: %w", err)
