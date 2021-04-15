@@ -8,6 +8,7 @@ import (
 
 	"github.com/SevereCloud/vksdk/v2/api"
 	"github.com/SevereCloud/vksdk/v2/api/params"
+
 	"github.com/tdakkota/vkalertmanager/pkg/hook"
 )
 
@@ -43,7 +44,7 @@ func (v VK) sendUser(ctxt context.Context, msg string) error {
 
 		_, err := v.client.MessagesSend(b.Params)
 		if err != nil {
-			return fmt.Errorf("failed to send message to user %d: %w", userID, err)
+			return fmt.Errorf("send message to user %d: %w", userID, err)
 		}
 	}
 
@@ -64,7 +65,7 @@ func (v VK) sendGroup(ctxt context.Context, msg string) error {
 		b.PeerIDs(v.receiverIDs[i:to])
 		_, err := v.client.MessagesSend(b.Params)
 		if err != nil {
-			return fmt.Errorf("failed to send message: %w", err)
+			return fmt.Errorf("send message: %w", err)
 		}
 	}
 

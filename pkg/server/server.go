@@ -6,8 +6,9 @@ import (
 	"net/http"
 
 	"github.com/rs/zerolog"
-	"github.com/tdakkota/vkalertmanager/pkg/hook"
 	"golang.org/x/sync/errgroup"
+
+	"github.com/tdakkota/vkalertmanager/pkg/hook"
 )
 
 func Create(emitter hook.Emitter, logger zerolog.Logger, config ...ListenerConfig) HookServer {

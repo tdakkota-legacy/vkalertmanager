@@ -6,8 +6,9 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/tdakkota/vkalertmanager/pkg/server"
 	"github.com/urfave/cli/v2"
+
+	"github.com/tdakkota/vkalertmanager/pkg/server"
 )
 
 var (

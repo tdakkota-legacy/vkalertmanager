@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/tdakkota/vkalertmanager/pkg/hook"
 )
 

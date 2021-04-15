@@ -8,9 +8,10 @@ import (
 
 	"github.com/SevereCloud/vksdk/v2/api"
 	"github.com/stretchr/testify/require"
+	"github.com/tdakkota/vksdkutil/v2/testutil"
+
 	"github.com/tdakkota/vkalertmanager/pkg/hook"
 	"github.com/tdakkota/vkalertmanager/pkg/template"
-	"github.com/tdakkota/vksdkutil/v2/testutil"
 )
 
 type IntSlice []int
@@ -42,7 +43,7 @@ func TestVK_Emit(t *testing.T) {
 		emit := NewVK(vk, receivers)
 		cse.ExpectCall("messages.send").WithParamsF(func() api.Params {
 			return api.Params{
-				"edit_ids": IntSlice(receivers).String(),
+				"peer_ids": IntSlice(receivers).String(),
 			}
 		})
 

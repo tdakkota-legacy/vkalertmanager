@@ -7,12 +7,13 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/tdakkota/vkalertmanager/pkg/emitter"
-	"github.com/tdakkota/vkalertmanager/pkg/hook"
-	"github.com/tdakkota/vkalertmanager/pkg/server"
 	sdkutil "github.com/tdakkota/vksdkutil/v2"
 	zlog "github.com/tdakkota/vksdkutil/v2/middleware/log/zerolog"
 	"github.com/urfave/cli/v2"
+
+	"github.com/tdakkota/vkalertmanager/pkg/emitter"
+	"github.com/tdakkota/vkalertmanager/pkg/hook"
+	"github.com/tdakkota/vkalertmanager/pkg/server"
 )
 
 func (app *App) parseListenerConfig(c *cli.Context) server.ListenerConfig {

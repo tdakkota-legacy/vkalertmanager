@@ -10,8 +10,9 @@ import (
 
 	"github.com/hako/durafmt"
 
-	"github.com/tdakkota/vkalertmanager/pkg/hook"
 	"github.com/valyala/bytebufferpool"
+
+	"github.com/tdakkota/vkalertmanager/pkg/hook"
 )
 
 var DefaultFuncs = template.FuncMap{

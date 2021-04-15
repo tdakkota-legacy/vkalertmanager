@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"github.com/rs/zerolog"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"sync/atomic"
 	"testing"
+
+	"github.com/rs/zerolog"
+	"github.com/stretchr/testify/require"
 )
 
 type handler struct{}
