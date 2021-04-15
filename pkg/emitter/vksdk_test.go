@@ -42,7 +42,7 @@ func TestVK_Emit(t *testing.T) {
 		emit := NewVK(vk, receivers)
 		cse.ExpectCall("messages.send").WithParamsF(func() api.Params {
 			return api.Params{
-				"user_ids": IntSlice(receivers).String(),
+				"edit_ids": IntSlice(receivers).String(),
 			}
 		})
 
