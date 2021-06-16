@@ -6,7 +6,7 @@ require (
 	github.com/SevereCloud/vksdk/v2 v2.10.0
 	github.com/hako/durafmt v0.0.0-20200710122514-c0fb7b4da026
 	github.com/justinas/alice v1.2.0
-	github.com/rs/zerolog v1.22.0
+	github.com/rs/zerolog v1.23.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tdakkota/vksdkutil/v2 v2.0.1
 	github.com/urfave/cli/v2 v2.3.0
