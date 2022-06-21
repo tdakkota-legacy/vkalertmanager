@@ -7,7 +7,7 @@ require (
 	github.com/hako/durafmt v0.0.0-20200710122514-c0fb7b4da026
 	github.com/justinas/alice v1.2.0
 	github.com/rs/zerolog v1.26.0
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.4
 	github.com/tdakkota/vksdkutil/v2 v2.0.1
 	github.com/urfave/cli/v2 v2.3.0
 	github.com/valyala/bytebufferpool v1.0.0
